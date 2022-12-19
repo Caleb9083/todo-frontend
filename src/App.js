@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavbarComponent from "../src/components/Navbar/NavbarComponent";
+import SignIn from "./pages/SignIn/SignIn";
 
 function App() {
   return (
@@ -8,7 +9,9 @@ function App() {
       <BrowserRouter>
         <NavbarComponent />
         <div className="pages">
-          <Routes>{/* <Route path="/" element={<Home />} /> */}</Routes>
+          <Routes>
+            <Route path="/sign-in" element={<SignIn />} />
+          </Routes>
         </div>
       </BrowserRouter>
     </div>
