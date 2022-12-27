@@ -94,7 +94,10 @@ function ResponsiveAppBar() {
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Link
                     style={{ textDecoration: "none" }}
-                    to={`/${page.replace(" ", "-").toLowerCase()}`}
+                    to={`/${page
+                      .replace(" ", "-")
+                      .toLowerCase()
+                      .replace("home", "")}`}
                   >
                     <Typography textAlign="center">{page}</Typography>
                   </Link>
@@ -127,7 +130,10 @@ function ResponsiveAppBar() {
                 key={page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
-                href={`/${page.replace(" ", "-").toLowerCase()}`}
+                href={`/${page
+                  .replace(" ", "-")
+                  .toLowerCase()
+                  .replace("home", "")}`}
               >
                 {page}
               </Button>
@@ -171,7 +177,10 @@ function ResponsiveAppBar() {
                   key={page}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
-                  href={`/${page.replace(" ", "-").toLowerCase()}`}
+                  href={`/${page
+                    .replace(" ", "-")
+                    .toLowerCase()
+                    .replace("home", "")}`}
                 >
                   {page}
                 </Button>
