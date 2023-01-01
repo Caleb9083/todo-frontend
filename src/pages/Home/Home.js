@@ -1,5 +1,6 @@
 import React from "react";
 import Features from "../../components/Features/Features";
+import Footer from "../../components/Footer/Footer";
 import Hero from "../../components/Hero/Hero";
 import Testimonies from "../../components/Testimonies/Testimonies";
 
@@ -11,6 +12,7 @@ const Home = () => {
         <Testimonies />
         <Features />
       </div>
+      <Footer />
     </div>
   );
 };
