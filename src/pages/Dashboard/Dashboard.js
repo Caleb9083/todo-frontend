@@ -8,18 +8,13 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
-// import Chart from "./Chart";
-// import Deposits from "./Deposits";
-// import Orders from "./Orders";
+import Calender from "./Calender";
 
 function Copyright(props) {
   return (
@@ -111,39 +106,39 @@ function DashboardContent() {
             overflow: "auto",
           }}
         >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Toolbar>Hi User</Toolbar>
+          <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
+              {/* Categories */}
+              <Grid item xs={12} md={6} lg={8}>
                 <Paper
                   sx={{
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 360,
                   }}
                 >
                   {/* <Chart /> */}
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
+              {/* Calender */}
+              <Grid item xs={12} md={6} lg={4}>
                 <Paper
                   sx={{
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
-                    height: 240,
+                    height: 360,
                   }}
                 >
-                  {/* <Deposits /> */}
+                  <Calender />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+              {/* All Tasks */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  {/* <Orders /> */}
+                  {/* All Tasks /> */}
                 </Paper>
               </Grid>
             </Grid>
