@@ -43,7 +43,7 @@ function Footer() {
             mb: "1rem",
           }}
         >
-          <FactCheckIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <FactCheckIcon sx={{ mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -51,7 +51,6 @@ function Footer() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
