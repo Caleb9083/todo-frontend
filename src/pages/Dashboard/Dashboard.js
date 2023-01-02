@@ -138,7 +138,7 @@ function DashboardContent() {
                   sx={{
                     p: 2,
                     display: "flex",
-                    height: 720,
+                    height: "auto",
                     flexWrap: "wrap",
                     gap: "1rem",
                   }}
