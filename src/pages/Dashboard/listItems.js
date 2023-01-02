@@ -12,31 +12,31 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
+    <ListItemButton href="/dashboard">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/dashboard/my-day">
       <ListItemIcon>
         <LightModeIcon />
       </ListItemIcon>
       <ListItemText primary="My Day" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/dashboard/important">
       <ListItemIcon>
         <StarBorderIcon />
       </ListItemIcon>
       <ListItemText primary="Important" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/dashboard/planned">
       <ListItemIcon>
         <CalendarMonthIcon />
       </ListItemIcon>
       <ListItemText primary="Planned" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton href="/dashboard/completed">
       <ListItemIcon>
         <TaskAltIcon />
       </ListItemIcon>
@@ -49,7 +49,9 @@ const myCategories = ["Current month", "Last quarter", "Last year"];
 
 const MyCategory = (props) => {
   return (
-    <ListItemButton>
+    <ListItemButton
+      href={`${props.categoryName}`.replace(" ", "-").toLowerCase()}
+    >
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
