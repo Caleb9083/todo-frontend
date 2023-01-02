@@ -8,8 +8,12 @@ import Typography from "@mui/material/Typography";
 
 export default function CategoriesCard(props) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image={props.image} title={props.title} />
+    <Card sx={{ height: 300, maxWidth: 345 }}>
+      <CardMedia
+        sx={{ height: 140, width: 260 }}
+        image={props.image}
+        title={props.title}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
