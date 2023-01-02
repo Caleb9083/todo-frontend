@@ -11,6 +11,7 @@ const DashboardIndex = () => {
       <Route path="/dashboard/important" element="" />
       <Route path="/dashboard/planned" element="" />
       <Route path="/dashboard/completed" element="" />
+      <Route path="/dashboard/other" element="" />
     </Routes>
   );
 };
