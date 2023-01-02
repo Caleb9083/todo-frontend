@@ -9,6 +9,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import ListAltIcon from "@mui/icons-material/ListAlt";
 
 export const mainListItems = (
   <React.Fragment>
@@ -41,6 +42,12 @@ export const mainListItems = (
         <TaskAltIcon />
       </ListItemIcon>
       <ListItemText primary="Completed" />
+    </ListItemButton>
+    <ListItemButton href="/dashboard/other">
+      <ListItemIcon>
+        <ListAltIcon />
+      </ListItemIcon>
+      <ListItemText primary="Other" />
     </ListItemButton>
   </React.Fragment>
 );
