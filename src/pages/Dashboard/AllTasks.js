@@ -43,43 +43,43 @@ const rows = [
   ),
   createData(
     1,
-    Date.now(),
+    new Date().toDateString(),
     "Today",
     "Learn MySQL",
     "Learn some basics of MySQL",
-    Date.now() + 24 * 60 * 60 * 1000,
-    true,
-    false
+    new Date().toDateString(),
+    `${true}`,
+    `${false}`
   ),
   createData(
     2,
-    Date.now(),
+    new Date().toDateString(),
     "Today",
     "Learn MySQL",
     "Learn some basics of MySQL",
-    Date.now() + 24 * 60 * 60 * 1000,
-    true,
-    false
+    new Date().toDateString(),
+    `${true}`,
+    `${false}`
   ),
   createData(
     3,
-    Date.now(),
+    new Date().toDateString(),
     "Today",
     "Learn MySQL",
     "Learn some basics of MySQL",
-    Date.now() + 24 * 60 * 60 * 1000,
-    true,
-    false
+    new Date().toDateString(),
+    `${true}`,
+    `${false}`
   ),
   createData(
     4,
-    Date.now(),
+    new Date().toDateString(),
     "Today",
     "Learn MySQL",
     "Learn some basics of MySQL",
-    Date.now() + 24 * 60 * 60 * 1000,
-    true,
-    false
+    new Date().toDateString(),
+    `${true}`,
+    `${false}`
   ),
 ];
 
