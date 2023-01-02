@@ -16,6 +16,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Calender from "./Calender";
 import CategoriesCard from "./CategoriesCard";
+import AllTasks from "./AllTasks";
 
 function Copyright(props) {
   return (
@@ -171,7 +172,7 @@ function DashboardContent() {
               {/* All Tasks */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  {/* All Tasks /> */}
+                  <AllTasks />
                 </Paper>
               </Grid>
             </Grid>
