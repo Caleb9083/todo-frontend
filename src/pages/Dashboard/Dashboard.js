@@ -15,6 +15,7 @@ import Link from "@mui/material/Link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Calender from "./Calender";
+import CategoriesCard from "./CategoriesCard";
 
 function Copyright(props) {
   return (
@@ -70,6 +71,28 @@ function DashboardContent() {
     setOpen(!open);
   };
 
+  const categoriesArr = [
+    { image: "/?2", title: "Today", description: "Task for today", count: "3" },
+    {
+      image: "/?2",
+      title: "Important",
+      description: "Task Starred",
+      count: "3",
+    },
+    {
+      image: "/?2",
+      title: "Planned",
+      description: "Tasks with deadlines",
+      count: "3",
+    },
+    {
+      image: "/?2",
+      title: "Completed",
+      description: "Task that are completed",
+      count: "3",
+    },
+  ];
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -115,11 +138,21 @@ function DashboardContent() {
                   sx={{
                     p: 2,
                     display: "flex",
-                    flexDirection: "column",
-                    height: 360,
+                    height: 720,
+                    flexWrap: "wrap",
+                    gap: "1rem",
                   }}
                 >
-                  {/* <Chart /> */}
+                  {categoriesArr.map((el) => {
+                    return (
+                      <CategoriesCard
+                        image={el.image}
+                        title={el.title}
+                        description={el.description}
+                        count={el.count}
+                      />
+                    );
+                  })}
                 </Paper>
               </Grid>
               {/* Calender */}
