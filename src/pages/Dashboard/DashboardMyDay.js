@@ -1,13 +1,12 @@
 import React from "react";
-import DashboardMain from "./DashboardMain";
 import DashboardWrapper from "./DashboardWrapper";
 
-const Dashboard = () => {
+const DashboardMyDay = () => {
   return (
     <DashboardWrapper>
-      <DashboardMain />
+      <div>Dashboard My Day</div>
     </DashboardWrapper>
   );
 };
 
-export default Dashboard;
+export default DashboardMyDay;
