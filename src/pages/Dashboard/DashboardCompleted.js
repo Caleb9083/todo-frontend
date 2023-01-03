@@ -2,19 +2,19 @@ import React from "react";
 import DashboardCategory from "../../components/DashboardCategory/DashboardCategory";
 import DashboardWrapper from "./DashboardWrapper";
 
-const DashboardMyDay = () => {
+const DashboardCompleted = () => {
   return (
     <DashboardWrapper>
       <DashboardCategory
-        category="My Day"
-        categoryDescription="Tasks for today"
+        category="Completed"
+        categoryDescription="Tasks Which Are Completed"
         todos={[
-          { name: "Learn Python" },
-          { name: "Learn Django", completed: true, important: true },
+          { name: "Learn React" },
+          { name: "Learn Material UI", completed: true, important: true },
         ]}
       />
     </DashboardWrapper>
   );
 };
 
-export default DashboardMyDay;
+export default DashboardCompleted;
