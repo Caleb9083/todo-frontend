@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Clock from "react-clock";
-import "react-clock/dist/Clock.css";
+import "../Clock/Clock.css";
 import Box from "@mui/material/Box";
 
 const ClockComponent = () => {
@@ -18,7 +18,7 @@ const ClockComponent = () => {
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <Box sx={{ mb: 1 }}>{new Date().toDateString()}</Box>
+      <Box sx={{ mb: 1, color: "#2196f3" }}>{new Date().toDateString()}</Box>
       <Clock renderNumbers="true" size={250} value={value} />
     </Box>
   );
