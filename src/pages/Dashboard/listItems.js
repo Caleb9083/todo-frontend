@@ -57,7 +57,7 @@ const myCategories = ["Current month", "Last quarter", "Last year"];
 const MyCategory = (props) => {
   return (
     <ListItemButton
-      href={`${props.categoryName}`.replace(" ", "-").toLowerCase()}
+      href={`/dashboard/${props.categoryName}`.replace(" ", "-").toLowerCase()}
     >
       <ListItemIcon>
         <AssignmentIcon />
