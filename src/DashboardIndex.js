@@ -7,6 +7,7 @@ import DashboardMyDay from "./pages/Dashboard/DashboardMyDay";
 import DashboardOther from "./pages/Dashboard/DashboardOther";
 import DashboardPlanned from "./pages/Dashboard/DashboardPlanned";
 import DashboardWrapper from "./pages/Dashboard/DashboardWrapper";
+import DashboardCategory from "./components/DashboardCategory/DashboardCategory";
 
 const DashboardIndex = () => {
   const userCategories = ["Current month", "Last quarter", "Last year"];
@@ -18,7 +19,14 @@ const DashboardIndex = () => {
         path={`/dashboard/${userCategories[i].replace(" ", "-").toLowerCase()}`}
         element={
           <DashboardWrapper>
-            <h1>{`${userCategories[i]}`}</h1>
+            <DashboardCategory
+              category={`${userCategories[i]}`}
+              categoryDescription="Special Tasks"
+              todos={[
+                { name: "Learn Python@3.9" },
+                { name: "Learn Django@v8", completed: true, important: true },
+              ]}
+            />
           </DashboardWrapper>
         }
       />
