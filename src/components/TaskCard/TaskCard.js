@@ -7,17 +7,29 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import UpdateTaskDialog from "../UpdateTaskDialog/UpdateTaskDialog";
+import DeleteTaskDialog from "../DeleteTaskDialog/DeleteTaskDialog";
 
 const TaskCard = (props) => {
-  const [open, setOpen] = React.useState(false);
+  const [openUpdate, setOpenUpdate] = React.useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenUpdate = () => {
+    setOpenUpdate(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseUpdate = () => {
+    setOpenUpdate(false);
   };
+
+  const [openDelete, setOpenDelete] = React.useState(false);
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   return (
     <Grid
       container
@@ -25,11 +37,18 @@ const TaskCard = (props) => {
       justifyContent="space-between"
       sx={{ mb: 2 }}
     >
-      {open && (
+      {openUpdate && (
         <UpdateTaskDialog
           category={props.category}
-          handleOpen={handleOpen}
-          handleClose={handleClose}
+          handleOpen={handleOpenUpdate}
+          handleClose={handleCloseUpdate}
+        />
+      )}
+      {openDelete && (
+        <DeleteTaskDialog
+          category={props.category}
+          handleOpen={handleOpenDelete}
+          handleClose={handleCloseDelete}
         />
       )}
       {props.completed === true ? (
@@ -39,10 +58,15 @@ const TaskCard = (props) => {
       )}
 
       <Box>
-        <Button variant="outlined" onClick={handleOpen}>
+        <Button variant="outlined" onClick={handleOpenUpdate}>
           <EditIcon /> Edit
         </Button>
-        <Button variant="outlined" color="error" sx={{ ml: 2 }}>
+        <Button
+          variant="outlined"
+          color="error"
+          sx={{ ml: 2 }}
+          onClick={handleOpenDelete}
+        >
           <DeleteIcon /> Delete
         </Button>
         <Button color="secondary" sx={{ ml: 1 }}>
