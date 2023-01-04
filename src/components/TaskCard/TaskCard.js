@@ -6,8 +6,18 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import UpdateTaskDialog from "../UpdateTaskDialog/UpdateTaskDialog";
 
 const TaskCard = (props) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <Grid
       container
@@ -15,6 +25,13 @@ const TaskCard = (props) => {
       justifyContent="space-between"
       sx={{ mb: 2 }}
     >
+      {open && (
+        <UpdateTaskDialog
+          category={props.category}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+        />
+      )}
       {props.completed === true ? (
         <Box sx={{ textDecoration: "line-through" }}>{props.name}</Box>
       ) : (
@@ -22,7 +39,7 @@ const TaskCard = (props) => {
       )}
 
       <Box>
-        <Button variant="outlined">
+        <Button variant="outlined" onClick={handleOpen}>
           <EditIcon /> Edit
         </Button>
         <Button variant="outlined" color="error" sx={{ ml: 2 }}>
