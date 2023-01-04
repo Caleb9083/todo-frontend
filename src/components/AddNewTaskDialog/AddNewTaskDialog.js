@@ -15,15 +15,40 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
-const AddNewTaskDialog = ({ handleOpen, handleClose, category }) => {
-  const [value, setValue] = React.useState(dayjs(Date.now()));
+const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
+  const [dateValue, setDateValue] = React.useState(new Date());
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
+  const handleDateChange = (newValue) => {
+    setDateValue(new Date(newValue));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const [taskData, setTaskData] = React.useState({
+    user: userId,
+    name: "",
+    description: "",
+    category: category,
+  });
+
+  const handleInfoChange = (e) => {
+    const task = { ...taskData };
+    task[e.target.id] = e.target.value;
+    setTaskData({ ...task });
+  };
+
+  const [important, setImportant] = React.useState(false);
+  const handleImportant = () => {
+    setImportant(!important);
+  };
+
+  const [completed, setCompleted] = React.useState(false);
+  const handleCompleted = () => {
+    setCompleted(!completed);
+  };
+
+  const handleSubmit = () => {
+    const finalTask = { ...taskData, dueDate: dateValue, important, completed };
+    console.log(finalTask);
+    handleClose();
   };
 
   return (
@@ -50,22 +75,24 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category }) => {
                 type="text"
                 fullWidth
                 variant="standard"
+                onChange={(e) => handleInfoChange(e)}
               />
             </Grid>
             <Grid>
               <TextField
                 margin="dense"
-                id="name"
+                id="description"
                 label="Description"
                 type="text"
                 fullWidth
                 variant="standard"
+                onChange={(e) => handleInfoChange(e)}
               />
             </Grid>
             <Grid>
               <TextField
                 margin="dense"
-                id="name"
+                id="category"
                 label="Category"
                 type="text"
                 fullWidth
@@ -79,19 +106,31 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category }) => {
                 <DesktopDatePicker
                   label="Due Date"
                   inputFormat="MM/DD/YYYY"
-                  value={value}
-                  onChange={handleChange}
+                  value={dateValue}
+                  onChange={handleDateChange}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
             </Grid>
             <Grid>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                control={
+                  <Checkbox
+                    onChange={handleImportant}
+                    value={important}
+                    color="primary"
+                  />
+                }
                 label="Important"
               />
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                control={
+                  <Checkbox
+                    onChange={handleCompleted}
+                    value={completed}
+                    color="primary"
+                  />
+                }
                 label="Completed"
               />
             </Grid>
@@ -99,7 +138,7 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </DialogActions>
       </Dialog>
     </div>
