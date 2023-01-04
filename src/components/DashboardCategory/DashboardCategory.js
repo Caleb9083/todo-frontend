@@ -9,8 +9,19 @@ import ClockComponent from "../Clock/Clock";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import TaskCard from "../TaskCard/TaskCard";
+import AddNewTaskDialog from "../AddNewTaskDialog/AddNewTaskDialog";
 
 const DashboardCategory = (props) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Box
       component="main"
@@ -24,6 +35,13 @@ const DashboardCategory = (props) => {
         overflow: "none",
       }}
     >
+      {open && (
+        <AddNewTaskDialog
+          category={props.category}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+        />
+      )}
       <Toolbar>{props.category}</Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>
@@ -44,7 +62,7 @@ const DashboardCategory = (props) => {
               >
                 <Box sx={{ fontSize: "2rem" }}>{props.categoryDescription}</Box>
                 <Box>
-                  <Button variant="contained">
+                  <Button variant="contained" onClick={handleOpen}>
                     <AddIcon />
                     Add new Task
                   </Button>

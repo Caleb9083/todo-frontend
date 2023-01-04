@@ -19,7 +19,7 @@ const ClockComponent = () => {
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Box sx={{ mb: 1, color: "#2196f3" }}>{new Date().toDateString()}</Box>
-      <Clock renderNumbers="true" size={250} value={value} />
+      <Clock renderNumbers={true} size={250} value={value} />
     </Box>
   );
 };
