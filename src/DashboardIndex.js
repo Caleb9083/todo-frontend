@@ -10,30 +10,6 @@ import DashboardWrapper from "./pages/Dashboard/DashboardWrapper";
 import DashboardCategory from "./components/DashboardCategory/DashboardCategory";
 
 const DashboardIndex = () => {
-  const userCategories = ["Current month", "Last quarter", "Last year"];
-
-  let arr = [];
-  for (const element of userCategories) {
-    const userCategoryRoute = (
-      <Route
-        path={`/dashboard/${element.replace(" ", "-").toLowerCase()}`}
-        element={
-          <DashboardWrapper>
-            <DashboardCategory
-              category={`${element}`}
-              categoryDescription="Special Tasks"
-              todos={[
-                { name: "Learn Python@3.9" },
-                { name: "Learn Django@v8", completed: true, important: true },
-              ]}
-            />
-          </DashboardWrapper>
-        }
-      />
-    );
-    arr.push(userCategoryRoute);
-  }
-
   return (
     <Routes>
       <Route path="/dashboard" element={<Dashboard />} />
@@ -42,10 +18,14 @@ const DashboardIndex = () => {
       <Route path="/dashboard/planned" element={<DashboardPlanned />} />
       <Route path="/dashboard/completed" element={<DashboardCompleted />} />
       <Route path="/dashboard/other" element={<DashboardOther />} />
-
-      {arr.map((el) => {
-        return el;
-      })}
+      <Route
+        path="/dashboard/:category"
+        element={
+          <DashboardWrapper>
+            <DashboardCategory />
+          </DashboardWrapper>
+        }
+      />
     </Routes>
   );
 };
