@@ -13,14 +13,14 @@ const DashboardIndex = () => {
   const userCategories = ["Current month", "Last quarter", "Last year"];
 
   let arr = [];
-  for (let i = 0; i < userCategories.length; i++) {
+  for (const element of userCategories) {
     const userCategoryRoute = (
       <Route
-        path={`/dashboard/${userCategories[i].replace(" ", "-").toLowerCase()}`}
+        path={`/dashboard/${element.replace(" ", "-").toLowerCase()}`}
         element={
           <DashboardWrapper>
             <DashboardCategory
-              category={`${userCategories[i]}`}
+              category={`${element}`}
               categoryDescription="Special Tasks"
               todos={[
                 { name: "Learn Python@3.9" },
