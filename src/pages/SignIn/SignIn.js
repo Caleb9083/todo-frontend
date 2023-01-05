@@ -13,17 +13,31 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
+import axios from "axios";
+import { BASE_URL } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const url = `${BASE_URL}/api/v1/users/signin`;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const user = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    axios
+      .post(url, user)
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        navigate("/dashboard");
+      })
+      .catch((err) => console.log(err.response.data));
   };
 
   return (
