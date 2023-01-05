@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,9 +11,32 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import TaskCard from "../TaskCard/TaskCard";
 import AddNewTaskDialog from "../AddNewTaskDialog/AddNewTaskDialog";
+import { todos as todoService } from "../../services/todos";
 
 const DashboardCategory = (props) => {
   const [open, setOpen] = React.useState(false);
+  const [todos, setTodos] = React.useState([]);
+
+  let { category } = useParams();
+
+  const formatCategory = (category) => {
+    const s = category.split("-").join(" ");
+    const capitalized = s.replace(s.charAt(0), s.charAt(0).toUpperCase());
+    return capitalized;
+  };
+
+  category = formatCategory(category);
+
+  React.useEffect(() => {
+    todoService
+      .getTodosByCategory(category)
+      .then((res) => {
+        const todos = res.data.data.data;
+        console.log(todos);
+        setTodos(todos);
+      })
+      .catch((err) => console.log(err.response.data));
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -37,12 +61,12 @@ const DashboardCategory = (props) => {
     >
       {open && (
         <AddNewTaskDialog
-          category={props.category}
+          category={category}
           handleOpen={handleOpen}
           handleClose={handleClose}
         />
       )}
-      <Toolbar>{props.category}</Toolbar>
+      <Toolbar>{category}</Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={8}>
@@ -60,7 +84,8 @@ const DashboardCategory = (props) => {
                 alignItems={"baseline"}
                 justifyContent="space-between"
               >
-                <Box sx={{ fontSize: "2rem" }}>{props.categoryDescription}</Box>
+                {/* TODO: replace this Special task with actual description */}
+                <Box sx={{ fontSize: "2rem" }}>{"Special task"}</Box>
                 <Box>
                   <Button variant="contained" onClick={handleOpen}>
                     <AddIcon />
@@ -70,8 +95,8 @@ const DashboardCategory = (props) => {
               </Grid>
               <Grid container>
                 <Box sx={{ width: "100%" }}>
-                  {props.todos &&
-                    props.todos.map((el) => {
+                  {todos &&
+                    todos.map((el) => {
                       return (
                         <TaskCard
                           key={el._id}
