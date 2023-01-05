@@ -13,10 +13,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Copyright from "../../components/Copyright/Copyright";
+import { BASE_URL } from "../../config";
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const url = `${BASE_URL}/api/v1/users/signup`;
+
+  console.log(url);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
