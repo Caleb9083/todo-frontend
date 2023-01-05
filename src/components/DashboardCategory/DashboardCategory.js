@@ -13,7 +13,7 @@ import TaskCard from "../TaskCard/TaskCard";
 import AddNewTaskDialog from "../AddNewTaskDialog/AddNewTaskDialog";
 import { todos as todoService } from "../../services/todos";
 
-const DashboardCategory = (props) => {
+const DashboardCategory = () => {
   const [open, setOpen] = React.useState(false);
   const [todos, setTodos] = React.useState([]);
 
@@ -26,6 +26,28 @@ const DashboardCategory = (props) => {
   };
 
   category = formatCategory(category);
+
+  let categoryDescription;
+  switch (category) {
+    case "Today":
+      categoryDescription = "Tasks for Today";
+      break;
+    case "Important":
+      categoryDescription = "Tasks Ranked As Important";
+      break;
+    case "Planned":
+      categoryDescription = "Tasks With A Scheduled Date";
+      break;
+    case "Completed":
+      categoryDescription = "Tasks Which Are Completed";
+      break;
+    case "Other":
+      categoryDescription = "Unclassified Task";
+      break;
+    default:
+      categoryDescription = "Special Tasks";
+      break;
+  }
 
   React.useEffect(() => {
     todoService
@@ -84,8 +106,7 @@ const DashboardCategory = (props) => {
                 alignItems={"baseline"}
                 justifyContent="space-between"
               >
-                {/* TODO: replace this Special task with actual description */}
-                <Box sx={{ fontSize: "2rem" }}>{"Special task"}</Box>
+                <Box sx={{ fontSize: "2rem" }}>{categoryDescription}</Box>
                 <Box>
                   <Button variant="contained" onClick={handleOpen}>
                     <AddIcon />
