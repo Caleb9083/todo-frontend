@@ -74,6 +74,7 @@ const DashboardCategory = (props) => {
                     props.todos.map((el) => {
                       return (
                         <TaskCard
+                          key={el._id}
                           name={el.name}
                           completed={el.completed}
                           important={el.important}
