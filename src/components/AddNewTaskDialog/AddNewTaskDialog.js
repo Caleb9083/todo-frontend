@@ -8,15 +8,15 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { todos as todoService } from "../../services/todos";
 
 const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
-  const [dateValue, setDateValue] = React.useState(new Date());
+  const [dateValue, setDateValue] = React.useState(null);
 
   const handleDateChange = (newValue) => {
     setDateValue(new Date(newValue));
@@ -47,7 +47,14 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
 
   const handleSubmit = () => {
     const finalTask = { ...taskData, dueDate: dateValue, important, completed };
-    console.log(finalTask);
+
+    todoService
+      .createTodo(finalTask)
+      .then((res) => {
+        console.log("task created!");
+      })
+      .catch((err) => console.log(err.response.data));
+
     handleClose();
   };
 
@@ -76,6 +83,7 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                required
               />
             </Grid>
             <Grid>
@@ -93,7 +101,7 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
               <TextField
                 margin="dense"
                 id="category"
-                label="Category"
+                label="Category*"
                 type="text"
                 fullWidth
                 variant="standard"
@@ -101,7 +109,7 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
                 disabled
               />
             </Grid>
-            <Grid sx={{ mt: "1.7rem", mb: "1rem" }}>
+            <Grid container sx={{ mt: "1.7rem", mb: "1rem" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   label="Due Date"
@@ -111,6 +119,14 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
+              <Button
+                onClick={() => {
+                  setDateValue(null);
+                }}
+                sx={{ ml: "2rem" }}
+              >
+                Reset Date
+              </Button>
             </Grid>
             <Grid>
               <FormControlLabel
