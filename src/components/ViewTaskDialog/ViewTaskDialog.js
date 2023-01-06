@@ -96,11 +96,7 @@ const ViewTaskDialog = ({ handleOpen, handleClose, taskId }) => {
               />
               <FormControlLabel
                 control={
-                  <Checkbox
-                    disabled
-                    checked={taskData.completed}
-                    color="primary"
-                  />
+                  <Checkbox checked={taskData.completed} color="primary" />
                 }
                 label="Completed"
               />
