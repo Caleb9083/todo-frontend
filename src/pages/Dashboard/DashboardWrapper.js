@@ -9,6 +9,10 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, secondaryListItems } from "./listItems";
+import AddIcon from "@mui/icons-material/Add";
+import Button from "@mui/material/Button";
+import ListItemButton from "@mui/material/ListItemButton";
+import AddNewCategoryDialog from "../../components/AddNewCategoryDialog/AddNewCategoryDialog";
 
 const drawerWidth = 240;
 
@@ -46,6 +50,16 @@ function DashboardWrapper(props) {
     setOpen(!open);
   };
 
+  const [openAddNewCategoryDialog, setOpenAddNewCategoryDialog] =
+    React.useState(false);
+  const handleOpen = () => {
+    setOpenAddNewCategoryDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenAddNewCategoryDialog(false);
+  };
+
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -68,9 +82,21 @@ function DashboardWrapper(props) {
             {mainListItems}
             <Divider sx={{ my: 1 }} />
             {secondaryListItems}
+            <ListItemButton>
+              <Button variant="contained" onClick={handleOpen}>
+                <AddIcon />
+                Add New Category
+              </Button>
+            </ListItemButton>
           </List>
         </Drawer>
         {props.children}
+        {openAddNewCategoryDialog && (
+          <AddNewCategoryDialog
+            handleOpen={handleOpen}
+            handleClose={handleClose}
+          />
+        )}
       </Box>
     </ThemeProvider>
   );
