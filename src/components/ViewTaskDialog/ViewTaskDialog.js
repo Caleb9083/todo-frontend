@@ -15,64 +15,34 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { todos as todoService } from "../../services/todos";
 
-const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
-  const [dateValue, setDateValue] = React.useState(null);
-
-  const handleDateChange = (newValue) => {
-    setDateValue(new Date(newValue));
-  };
-
+const ViewTaskDialog = ({ handleOpen, handleClose, taskId }) => {
   const [taskData, setTaskData] = React.useState({
-    user: userId,
     name: "",
     description: "",
-    category: category,
+    category: "",
+    dueDate: null,
+    important: false,
+    completed: false,
   });
 
-  const handleInfoChange = (e) => {
-    const task = { ...taskData };
-    task[e.target.id] = e.target.value;
-    setTaskData({ ...task });
-  };
-
-  const [important, setImportant] = React.useState(false);
-  const handleImportant = () => {
-    setImportant(!important);
-  };
-
-  const [completed, setCompleted] = React.useState(false);
-  const handleCompleted = () => {
-    setCompleted(!completed);
-  };
-
-  const handleSubmit = () => {
-    const finalTask = { ...taskData, dueDate: dateValue, important, completed };
-
+  React.useEffect(() => {
     todoService
-      .createTodo(finalTask)
+      .getTodo(taskId)
       .then((res) => {
-        console.log("task created!");
+        setTaskData(res.data.data.data);
       })
       .catch((err) => console.log(err.response.data));
-
-    handleClose();
-  };
+  }, []);
 
   return (
     <div>
       <Dialog open={handleOpen} onClose={handleClose}>
-        <DialogTitle>Add New Task</DialogTitle>
+        <DialogTitle>View Task Details</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Provide information about your new task, the ones marked with * are
-            required
+            You can view all the various details about your selected task here
           </DialogContentText>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: "1rem" }}
-          >
+          <Box component="form" noValidate sx={{ mt: "1rem" }}>
             <Grid>
               <TextField
                 autoFocus
@@ -82,8 +52,7 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
                 type="text"
                 fullWidth
                 variant="standard"
-                onChange={(e) => handleInfoChange(e)}
-                required
+                value={taskData.name}
               />
             </Grid>
             <Grid>
@@ -94,71 +63,49 @@ const AddNewTaskDialog = ({ handleOpen, handleClose, category, userId }) => {
                 type="text"
                 fullWidth
                 variant="standard"
-                onChange={(e) => handleInfoChange(e)}
+                value={taskData.description}
               />
             </Grid>
             <Grid>
               <TextField
                 margin="dense"
                 id="category"
-                label="Category*"
+                label="Category"
                 type="text"
                 fullWidth
                 variant="standard"
-                value={category}
-                disabled
+                value={taskData.category}
               />
             </Grid>
-            <Grid container sx={{ mt: "1.7rem", mb: "1rem" }}>
+            <Grid sx={{ mt: "1.7rem", mb: "1rem" }}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DesktopDatePicker
                   label="Due Date"
                   inputFormat="MM/DD/YYYY"
-                  value={dateValue}
-                  onChange={handleDateChange}
+                  value={taskData.dueDate}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-              <Button
-                onClick={() => {
-                  setDateValue(null);
-                }}
-                sx={{ ml: "2rem" }}
-              >
-                Reset Date
-              </Button>
             </Grid>
             <Grid>
               <FormControlLabel
                 control={
-                  <Checkbox
-                    onChange={handleImportant}
-                    value={important}
-                    color="primary"
-                  />
+                  <Checkbox checked={taskData.important} color="primary" />
                 }
                 label="Important"
               />
               <FormControlLabel
                 control={
-                  <Checkbox
-                    onChange={handleCompleted}
-                    value={completed}
-                    color="primary"
-                  />
+                  <Checkbox checked={taskData.completed} color="primary" />
                 }
                 label="Completed"
               />
             </Grid>
           </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
 };
 
-export default AddNewTaskDialog;
+export default ViewTaskDialog;

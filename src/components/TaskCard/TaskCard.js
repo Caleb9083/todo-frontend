@@ -8,8 +8,18 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import UpdateTaskDialog from "../UpdateTaskDialog/UpdateTaskDialog";
 import DeleteTaskDialog from "../DeleteTaskDialog/DeleteTaskDialog";
+import ViewTaskDialog from "../ViewTaskDialog/ViewTaskDialog";
 
 const TaskCard = (props) => {
+  const [openView, setOpenView] = React.useState(false);
+
+  const handleOpenView = () => {
+    setOpenView(true);
+  };
+
+  const handleCloseView = () => {
+    setOpenView(false);
+  };
   const [openUpdate, setOpenUpdate] = React.useState(false);
 
   const handleOpenUpdate = () => {
@@ -29,7 +39,6 @@ const TaskCard = (props) => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   return (
     <Grid
       container
@@ -37,24 +46,14 @@ const TaskCard = (props) => {
       justifyContent="space-between"
       sx={{ mb: 2 }}
     >
-      {openUpdate && (
-        <UpdateTaskDialog
-          category={props.category}
-          handleOpen={handleOpenUpdate}
-          handleClose={handleCloseUpdate}
-        />
-      )}
-      {openDelete && (
-        <DeleteTaskDialog
-          category={props.category}
-          handleOpen={handleOpenDelete}
-          handleClose={handleCloseDelete}
-        />
-      )}
       {props.completed === true ? (
-        <Box sx={{ textDecoration: "line-through" }}>{props.name}</Box>
+        <Box sx={{ textDecoration: "line-through" }}>
+          <Button onClick={handleOpenView}>{props.name}</Button>
+        </Box>
       ) : (
-        <Box>{props.name}</Box>
+        <Box>
+          <Button onClick={handleOpenView}>{props.name}</Button>
+        </Box>
       )}
 
       <Box>
@@ -73,6 +72,27 @@ const TaskCard = (props) => {
           {props.important === true ? <StarIcon /> : <StarBorderIcon />}
         </Button>
       </Box>
+      {openView && (
+        <ViewTaskDialog
+          taskId={props.taskId}
+          handleOpen={handleOpenView}
+          handleClose={handleCloseView}
+        />
+      )}
+      {openUpdate && (
+        <UpdateTaskDialog
+          category={props.category}
+          handleOpen={handleOpenUpdate}
+          handleClose={handleCloseUpdate}
+        />
+      )}
+      {openDelete && (
+        <DeleteTaskDialog
+          category={props.category}
+          handleOpen={handleOpenDelete}
+          handleClose={handleCloseDelete}
+        />
+      )}
     </Grid>
   );
 };

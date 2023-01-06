@@ -12,9 +12,20 @@ import AddIcon from "@mui/icons-material/Add";
 import TaskCard from "../TaskCard/TaskCard";
 import AddNewTaskDialog from "../AddNewTaskDialog/AddNewTaskDialog";
 import { todos as todoService } from "../../services/todos";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import UpdateCategoryDialog from "../UpdateCategoryDialog/UpdateCategoryDialog";
+import DeleteCategoryDialog from "../DeleteCategoryDialog/DeleteCategoryDialog";
 
 const DashboardCategory = () => {
   const [open, setOpen] = React.useState(false);
+  const [openUpdateCategoryDialog, setOpenUpdateCategoryDialog] =
+    React.useState(false);
+  const [openDeleteCategoryDialog, setOpenDeleteCategoryDialog] =
+    React.useState(false);
+
   const [todos, setTodos] = React.useState([]);
 
   let { category } = useParams();
@@ -28,21 +39,27 @@ const DashboardCategory = () => {
   category = formatCategory(category);
 
   let categoryDescription;
+  let none;
   switch (category) {
     case "Today":
       categoryDescription = "Tasks for Today";
+      none = "none";
       break;
     case "Important":
       categoryDescription = "Tasks Ranked As Important";
+      none = "none";
       break;
     case "Planned":
       categoryDescription = "Tasks With A Scheduled Date";
+      none = "none";
       break;
     case "Completed":
       categoryDescription = "Tasks Which Are Completed";
+      none = "none";
       break;
     case "Other":
       categoryDescription = "Unclassified Task";
+      none = "none";
       break;
     default:
       categoryDescription = "Special Tasks";
@@ -60,12 +77,31 @@ const DashboardCategory = () => {
       .catch((err) => console.log(err.response.data));
   }, []);
 
+  // Add new Task Dialog
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  // Update Category Dialog
+  const handleOpenUpdateCategory = () => {
+    setOpenUpdateCategoryDialog(true);
+  };
+
+  const handleCloseUpdateCategory = () => {
+    setOpenUpdateCategoryDialog(false);
+  };
+
+  // Delete Category Dialog
+  const handleOpenDeleteCategory = () => {
+    setOpenDeleteCategoryDialog(true);
+  };
+
+  const handleCloseDeleteCategory = () => {
+    setOpenDeleteCategoryDialog(false);
   };
 
   return (
@@ -88,6 +124,18 @@ const DashboardCategory = () => {
           handleClose={handleClose}
         />
       )}
+      {openUpdateCategoryDialog && (
+        <UpdateCategoryDialog
+          handleOpen={handleOpenUpdateCategory}
+          handleClose={handleCloseUpdateCategory}
+        />
+      )}
+      {openDeleteCategoryDialog && (
+        <DeleteCategoryDialog
+          handleOpen={handleOpenDeleteCategory}
+          handleClose={handleCloseDeleteCategory}
+        />
+      )}
       <Toolbar>{category}</Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>
@@ -106,7 +154,29 @@ const DashboardCategory = () => {
                 alignItems={"baseline"}
                 justifyContent="space-between"
               >
-                <Box sx={{ fontSize: "2rem" }}>{categoryDescription}</Box>
+                <Box sx={{ display: "flex", fontSize: "2rem" }}>
+                  {categoryDescription}
+                  <Box sx={{ display: `${none}` }}>
+                    <Tooltip title="Edit Category">
+                      <IconButton
+                        size="small"
+                        color="primary"
+                        onClick={handleOpenUpdateCategory}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Category">
+                      <IconButton
+                        size="small"
+                        color="error"
+                        onClick={handleOpenDeleteCategory}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
                 <Box>
                   <Button variant="contained" onClick={handleOpen}>
                     <AddIcon />
@@ -121,7 +191,10 @@ const DashboardCategory = () => {
                       return (
                         <TaskCard
                           key={el._id}
+                          taskId={el._id}
                           name={el.name}
+                          description={el.description}
+                          dueDate={el.dueDate}
                           completed={el.completed}
                           important={el.important}
                         />
