@@ -191,7 +191,10 @@ const DashboardCategory = () => {
                       return (
                         <TaskCard
                           key={el._id}
+                          taskId={el._id}
                           name={el.name}
+                          description={el.description}
+                          dueDate={el.dueDate}
                           completed={el.completed}
                           important={el.important}
                         />
