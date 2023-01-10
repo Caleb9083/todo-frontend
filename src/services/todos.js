@@ -38,8 +38,28 @@ const getTodo = async (todoId) => {
   }
 };
 
+const updateTodo = async (todoId) => {
+  try {
+    const res = await API.patch(`/todos/${todoId}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+const deleteTodo = async (todoId) => {
+  try {
+    const res = await API.delete(`/todos/${todoId}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const todos = {
   getTodosByCategory,
   createTodo,
   getTodo,
+  updateTodo,
+  deleteTodo,
 };
