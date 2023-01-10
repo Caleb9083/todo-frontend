@@ -10,6 +10,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import { category as categoryService } from "../../services/catergories";
 
 export const mainListItems = (
   <React.Fragment>
@@ -52,8 +53,6 @@ export const mainListItems = (
   </React.Fragment>
 );
 
-const myCategories = ["Current month", "Last quarter", "Last year"];
-
 const MyCategory = (props) => {
   return (
     <ListItemButton
@@ -67,13 +66,36 @@ const MyCategory = (props) => {
   );
 };
 
-export const secondaryListItems = (
-  <React.Fragment>
-    <ListSubheader component="div" inset>
-      My Categories
-    </ListSubheader>
-    {myCategories.map((el) => {
-      return <MyCategory categoryName={el} />;
-    })}
-  </React.Fragment>
-);
+export const SecondaryListItems = () => {
+  const [myCategories, setMyCategories] = React.useState([
+    { category: "Next Week", categoryDescription: "Task for next week" },
+  ]);
+
+  React.useEffect(() => {
+    categoryService
+      .getCategories()
+      .then((res) => {
+        setMyCategories(res.data.data.data);
+        console.log(res.data.data.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, []);
+
+  return (
+    <React.Fragment>
+      <ListSubheader component="div" inset>
+        My Categories
+      </ListSubheader>
+      {myCategories.map((el) => {
+        return (
+          <MyCategory
+            categoryName={el.category}
+            categoryDescription={el.categoryDescription}
+          />
+        );
+      })}
+    </React.Fragment>
+  );
+};
