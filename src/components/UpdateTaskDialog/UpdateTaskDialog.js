@@ -14,8 +14,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { todos as todoService } from "../../services/todos";
+import { useNavigate } from "react-router-dom";
 
-const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
+const UpdateTaskDialog = ({ handleOpen, handleClose, taskId }) => {
+  const navigate = useNavigate();
+
   const [dateValue, setDateValue] = React.useState(new Date());
 
   const handleDateChange = (newValue) => {
@@ -23,12 +27,23 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
   };
 
   const [taskData, setTaskData] = React.useState({
-    user: userId,
     todo: taskId,
     name: "",
     description: "",
     category: "",
   });
+
+  React.useEffect(() => {
+    todoService
+      .getTodo(taskId)
+      .then((res) => {
+        setTaskData(res.data.data.data);
+        setDateValue(res.data.data.data.dueDate);
+        setImportant(res.data.data.data.important);
+        setCompleted(res.data.data.data.completed);
+      })
+      .catch((err) => console.log(err.response.data));
+  }, []);
 
   const handleInfoChange = (e) => {
     const task = { ...taskData };
@@ -47,9 +62,18 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
   };
 
   const handleSubmit = () => {
-    // e.preventDefault();
     const finalTask = { ...taskData, dueDate: dateValue, important, completed };
     console.log(finalTask);
+    console.log();
+    todoService
+      .updateTodo(taskId, finalTask)
+      .then((res) => {
+        console.log("Task Updated");
+        navigate(0);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
     handleClose();
   };
 
@@ -73,6 +97,7 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                value={taskData.name}
               />
             </Grid>
             <Grid>
@@ -84,6 +109,7 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                value={taskData.description}
               />
             </Grid>
             <Grid>
@@ -95,6 +121,7 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                value={taskData.category}
               />
             </Grid>
             <Grid sx={{ mt: "1.7rem", mb: "1rem" }}>
@@ -114,7 +141,7 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
                   <Checkbox
                     id="important"
                     onChange={handleImportant}
-                    value={important}
+                    checked={important}
                     color="primary"
                   />
                 }
@@ -124,7 +151,7 @@ const UpdateTaskDialog = ({ handleOpen, handleClose, taskId, userId }) => {
                 control={
                   <Checkbox
                     onChange={handleCompleted}
-                    value={completed}
+                    checked={completed}
                     color="primary"
                   />
                 }

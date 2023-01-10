@@ -38,9 +38,9 @@ const getTodo = async (todoId) => {
   }
 };
 
-const updateTodo = async (todoId) => {
+const updateTodo = async (todoId, data) => {
   try {
-    const res = await API.patch(`/todos/${todoId}`);
+    const res = await API.patch(`/todos/${todoId}`, data);
     return res;
   } catch (error) {
     return error;
