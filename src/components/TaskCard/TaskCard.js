@@ -81,6 +81,7 @@ const TaskCard = (props) => {
       )}
       {openUpdate && (
         <UpdateTaskDialog
+          taskId={props.taskId}
           category={props.category}
           handleOpen={handleOpenUpdate}
           handleClose={handleCloseUpdate}
@@ -88,6 +89,7 @@ const TaskCard = (props) => {
       )}
       {openDelete && (
         <DeleteTaskDialog
+          taskId={props.taskId}
           category={props.category}
           handleOpen={handleOpenDelete}
           handleClose={handleCloseDelete}
