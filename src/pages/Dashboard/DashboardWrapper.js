@@ -8,7 +8,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems, secondaryListItems } from "./listItems";
+import { mainListItems, SecondaryListItems } from "./listItems";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -81,7 +81,7 @@ function DashboardWrapper(props) {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            <SecondaryListItems />
             <ListItemButton>
               <Button variant="contained" onClick={handleOpen}>
                 <AddIcon />
