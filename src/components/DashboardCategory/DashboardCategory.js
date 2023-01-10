@@ -71,7 +71,6 @@ const DashboardCategory = () => {
       .getTodosByCategory(category)
       .then((res) => {
         const todos = res.data.data.data;
-        console.log(todos);
         setTodos(todos);
       })
       .catch((err) => console.log(err.response.data));
