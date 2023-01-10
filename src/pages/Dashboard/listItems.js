@@ -67,16 +67,13 @@ const MyCategory = (props) => {
 };
 
 export const SecondaryListItems = () => {
-  const [myCategories, setMyCategories] = React.useState([
-    { category: "Next Week", categoryDescription: "Task for next week" },
-  ]);
+  const [myCategories, setMyCategories] = React.useState([]);
 
   React.useEffect(() => {
     categoryService
       .getCategories()
       .then((res) => {
         setMyCategories(res.data.data.data);
-        console.log(res.data.data.data);
       })
       .catch((err) => {
         console.log(err.response);
