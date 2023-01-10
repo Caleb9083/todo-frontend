@@ -8,12 +8,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { category as categoryService } from "../../services/catergories";
 
 const AddNewCategoryDialog = ({ handleOpen, handleClose, userId }) => {
-  const [dateValue, setDateValue] = React.useState(new Date());
-
   const [categoryData, setCategoryData] = React.useState({
-    user: userId,
     category: "",
     categoryDescription: "",
   });
@@ -26,7 +24,15 @@ const AddNewCategoryDialog = ({ handleOpen, handleClose, userId }) => {
 
   const handleSubmit = () => {
     const finalCategory = { ...categoryData };
-    console.log(finalCategory);
+
+    categoryService
+      .createCategory(finalCategory)
+      .then((res) => {
+        console.log("Category created");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     handleClose();
   };
 
