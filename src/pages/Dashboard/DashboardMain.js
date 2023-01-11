@@ -47,36 +47,42 @@ const DashboardMain = () => {
       title: "Today",
       description: "Task for today",
       count: `${today}`,
+      linkTo: "/dashboard/today",
     },
     {
       image: importantImg,
       title: "Important",
       description: "Task Starred",
       count: `${important}`,
+      linkTo: "/dashboard/important",
     },
     {
       image: plannedImg,
       title: "Planned",
       description: "Tasks with deadlines",
       count: `${planned}`,
+      linkTo: "/dashboard/planned",
     },
     {
       image: completedImg,
       title: "Completed",
       description: "Task that are completed",
       count: `${completed}`,
+      linkTo: "/dashboard/completed",
     },
     {
       image: otherImg,
       title: "Other",
       description: "Unclassified Tasks",
       count: `${other}`,
+      linkTo: "/dashboard/other",
     },
     {
       image: yourCategoriesImg,
       title: "Your Categories",
       description: "Find all your categories here",
       count: "Go to your catgories",
+      linkTo: "/dashboard",
     },
   ];
   return (
@@ -114,6 +120,7 @@ const DashboardMain = () => {
                     title={el.title}
                     description={el.description}
                     count={el.count}
+                    linkTo={el.linkTo}
                   />
                 );
               })}
