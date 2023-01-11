@@ -8,27 +8,82 @@ import Calender from "./Calender";
 import CategoriesCard from "./CategoriesCard";
 import AllTasks from "./AllTasks";
 import Copyright from "../../components/Copyright/Copyright";
+import todayImg from "../../assets/today.jpg";
+import importantImg from "../../assets/important.jpg";
+import plannedImg from "../../assets/planned.jpg";
+import completedImg from "../../assets/completed.jpg";
+import otherImg from "../../assets/other.jpg";
+import yourCategoriesImg from "../../assets/categories.jpg";
+import { todos as todoService } from "../../services/todos";
 
 const DashboardMain = () => {
+  const [today, setToday] = React.useState(0);
+  const [important, setImportant] = React.useState(0);
+  const [planned, setPlanned] = React.useState(0);
+  const [completed, setCompleted] = React.useState(0);
+  const [other, setOther] = React.useState(0);
+  const time = new Date().getHours();
+
+  React.useEffect(() => {
+    todoService.getTodosByCategory("Today").then((res) => {
+      setToday(res.data.data.data.length);
+    });
+    todoService.getTodosByCategory("Important").then((res) => {
+      setImportant(res.data.data.data.length);
+    });
+    todoService.getTodosByCategory("Planned").then((res) => {
+      setPlanned(res.data.data.data.length);
+    });
+    todoService.getTodosByCategory("Completed").then((res) => {
+      setCompleted(res.data.data.data.length);
+    });
+    todoService.getTodosByCategory("Other").then((res) => {
+      setOther(res.data.data.data.length);
+    });
+  }, []);
+
   const categoriesArr = [
-    { image: "/?2", title: "Today", description: "Task for today", count: "3" },
     {
-      image: "/?2",
+      image: todayImg,
+      title: "Today",
+      description: "Task for today",
+      count: `${today}`,
+      linkTo: "/dashboard/today",
+    },
+    {
+      image: importantImg,
       title: "Important",
       description: "Task Starred",
-      count: "3",
+      count: `${important}`,
+      linkTo: "/dashboard/important",
     },
     {
-      image: "/?2",
+      image: plannedImg,
       title: "Planned",
       description: "Tasks with deadlines",
-      count: "3",
+      count: `${planned}`,
+      linkTo: "/dashboard/planned",
     },
     {
-      image: "/?2",
+      image: completedImg,
       title: "Completed",
       description: "Task that are completed",
-      count: "3",
+      count: `${completed}`,
+      linkTo: "/dashboard/completed",
+    },
+    {
+      image: otherImg,
+      title: "Other",
+      description: "Unclassified Tasks",
+      count: `${other}`,
+      linkTo: "/dashboard/other",
+    },
+    {
+      image: yourCategoriesImg,
+      title: "Your Categories",
+      description: "Find all your categories here",
+      count: "Go to your catgories",
+      linkTo: "/dashboard",
     },
   ];
   return (
@@ -44,7 +99,14 @@ const DashboardMain = () => {
         overflow: "none",
       }}
     >
-      <Toolbar>Hi User</Toolbar>
+      <Toolbar>
+        {time >= 12
+          ? time >= 17
+            ? "Good Evening,"
+            : "Good Afternoon,"
+          : "Good Morning,"}{" "}
+        {localStorage.getItem("firstName")}
+      </Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>
           {/* Categories */}
@@ -58,13 +120,15 @@ const DashboardMain = () => {
                 gap: "1rem",
               }}
             >
-              {categoriesArr.map((el) => {
+              {categoriesArr.map((el, index) => {
                 return (
                   <CategoriesCard
+                    key={index}
                     image={el.image}
                     title={el.title}
                     description={el.description}
                     count={el.count}
+                    linkTo={el.linkTo}
                   />
                 );
               })}

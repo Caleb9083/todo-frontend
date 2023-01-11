@@ -23,7 +23,10 @@ export default function CategoriesCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">{`${props.count} Tasks`}</Button>
+        <Button
+          href={props.linkTo}
+          size="small"
+        >{`${props.count} Tasks`}</Button>
       </CardActions>
     </Card>
   );

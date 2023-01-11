@@ -85,9 +85,10 @@ export const SecondaryListItems = () => {
       <ListSubheader component="div" inset>
         My Categories
       </ListSubheader>
-      {myCategories.map((el) => {
+      {myCategories.map((el, index) => {
         return (
           <MyCategory
+            key={index}
             categoryName={el.category}
             categoryDescription={el.categoryDescription}
           />
