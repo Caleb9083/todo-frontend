@@ -11,6 +11,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, SecondaryListItems } from "./listItems";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
 import ListItemButton from "@mui/material/ListItemButton";
 import AddNewCategoryDialog from "../../components/AddNewCategoryDialog/AddNewCategoryDialog";
 
@@ -82,12 +83,23 @@ function DashboardWrapper(props) {
             {mainListItems}
             <Divider sx={{ my: 1 }} />
             <SecondaryListItems />
-            <ListItemButton>
-              <Button variant="contained" onClick={handleOpen}>
-                <AddIcon />
-                Add New Category
-              </Button>
-            </ListItemButton>
+            <Box sx={{ ml: "0.5rem" }}>
+              {open ? (
+                <Button
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={handleOpen}
+                >
+                  Add New Category
+                </Button>
+              ) : (
+                <Tooltip onClick={handleOpen} title="Add new category">
+                  <IconButton color="primary" aria-label="delete">
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Box>
           </List>
         </Drawer>
         {props.children}
