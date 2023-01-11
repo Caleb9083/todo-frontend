@@ -22,6 +22,7 @@ const DashboardMain = () => {
   const [planned, setPlanned] = React.useState(0);
   const [completed, setCompleted] = React.useState(0);
   const [other, setOther] = React.useState(0);
+  const time = new Date().getHours();
 
   React.useEffect(() => {
     todoService.getTodosByCategory("Today").then((res) => {
@@ -98,7 +99,14 @@ const DashboardMain = () => {
         overflow: "none",
       }}
     >
-      <Toolbar>Hi User</Toolbar>
+      <Toolbar>
+        {time >= 12
+          ? time >= 17
+            ? "Good Evening,"
+            : "Good Afternoon,"
+          : "Good Morning,"}{" "}
+        {localStorage.getItem("firstName")}
+      </Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>
           {/* Categories */}
