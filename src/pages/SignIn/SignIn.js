@@ -33,14 +33,14 @@ export default function SignIn() {
     axios
       .post(url, user)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("firstName", res.data.data.user.firstName);
-        localStorage.setItem("lastName", res.data.data.user.lastName);
-        localStorage.setItem("email", res.data.data.user.email);
-        localStorage.setItem("isLoggedIn", true);
+        sessionStorage.setItem("isLoggedIn", true);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("firstName", res.data.data.user.firstName);
+        sessionStorage.setItem("lastName", res.data.data.user.lastName);
+        sessionStorage.setItem("email", res.data.data.user.email);
         navigate("/dashboard");
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => console.log(err));
   };
 
   return (
