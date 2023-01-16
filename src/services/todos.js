@@ -1,13 +1,25 @@
 import axios from "axios";
 import { BASE_URL } from "../config";
+import { getToken } from "../utils/utils";
 
 const API = axios.create({
   baseURL: `${BASE_URL}/api/v1/`,
   headers: {
     "Content-Type": "application/json",
-    authorization: `Bearer ${localStorage.getItem("token")}`,
+    authorization: `Bearer ${getToken()}`,
   },
 });
+
+API.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    config.headers.authorization = `Bearer ${token}`;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 const url = `/todos/todosByCategory/`;
 
