@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,17 +12,16 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
+import { UserContext } from "../../context/userContext";
 
 const pages = ["Home", "Features", "About"];
 const authPages = ["Sign In", "Sign Up"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
+  const { user, setUser } = React.useContext(UserContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,6 +37,14 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    setUser({ isLoggedIn: false });
+    sessionStorage.clear();
+  };
+  React.useEffect(() => {
+    setUser({ isLoggedIn: sessionStorage.getItem("isLoggedIn") });
+  }, []);
 
   return (
     <AppBar position="static">
@@ -90,19 +98,33 @@ function ResponsiveAppBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.concat(authPages).map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={`/${page
-                      .replace(" ", "-")
-                      .toLowerCase()
-                      .replace("home", "")}`}
-                  >
-                    <Typography textAlign="center">{page}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
+              {user.isLoggedIn
+                ? pages.map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={`/${page
+                          .replace(" ", "-")
+                          .toLowerCase()
+                          .replace("home", "")}`}
+                      >
+                        <Typography textAlign="center">{page}</Typography>
+                      </Link>
+                    </MenuItem>
+                  ))
+                : pages.concat(authPages).map((page) => (
+                    <MenuItem key={page} onClick={handleCloseNavMenu}>
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={`/${page
+                          .replace(" ", "-")
+                          .toLowerCase()
+                          .replace("home", "")}`}
+                      >
+                        <Typography textAlign="center">{page}</Typography>
+                      </Link>
+                    </MenuItem>
+                  ))}
             </Menu>
           </Box>
           <FactCheckIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
@@ -122,7 +144,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            ToDo
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -140,11 +162,14 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
-          {isLoggedIn ? (
+          {user.isLoggedIn ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar
+                    alt={sessionStorage.getItem("firstName")}
+                    src="/static/images/avatar/2.jpg"
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -163,11 +188,46 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                <Link
+                  onClick={handleCloseNavMenu}
+                  style={{ textDecoration: "none" }}
+                  to={`/profile`}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                    }}
+                  >
+                    <Typography textAlign="center">{"Profile"}</Typography>
                   </MenuItem>
-                ))}
+                </Link>
+                <Link
+                  onClick={handleCloseNavMenu}
+                  style={{ textDecoration: "none" }}
+                  to={`/dashboard`}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                    }}
+                  >
+                    <Typography textAlign="center">{"Dashboard"}</Typography>
+                  </MenuItem>
+                </Link>
+                <Link
+                  onClick={handleCloseNavMenu}
+                  style={{ textDecoration: "none" }}
+                  to={"/"}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      handleLogout();
+                    }}
+                  >
+                    <Typography textAlign="center">{"Logout"}</Typography>
+                  </MenuItem>
+                </Link>
               </Menu>
             </Box>
           ) : (
