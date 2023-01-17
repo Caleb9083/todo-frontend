@@ -8,10 +8,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { category as categoryService } from "../../services/catergories";
+import { useNavigate } from "react-router-dom";
 
-const UpdateCategoryDialog = ({ handleOpen, handleClose, userId }) => {
+const UpdateCategoryDialog = ({ handleOpen, handleClose, categoryId }) => {
+  const navigate = useNavigate();
   const [categoryData, setCategoryData] = React.useState({
-    user: userId,
     category: "",
     categoryDescription: "",
   });
@@ -23,10 +25,35 @@ const UpdateCategoryDialog = ({ handleOpen, handleClose, userId }) => {
   };
 
   const handleSubmit = () => {
-    const finalCategory = { ...categoryData };
-    console.log(finalCategory);
+    const finalCategory = {
+      category: categoryData.category,
+      categoryDescription: categoryData.categoryDescription,
+    };
+    categoryService
+      .updateCategory(categoryId, finalCategory)
+      .then((res) => {
+        navigate(
+          `/dashboard/${res.data.data.data.category}`
+            .replace(" ", "-")
+            .toLowerCase()
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     handleClose();
   };
+
+  React.useEffect(() => {
+    categoryService
+      .getCategory(categoryId)
+      .then((res) => {
+        setCategoryData(res.data.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -52,6 +79,7 @@ const UpdateCategoryDialog = ({ handleOpen, handleClose, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                value={categoryData.category}
               />
             </Grid>
             <Grid>
@@ -63,6 +91,7 @@ const UpdateCategoryDialog = ({ handleOpen, handleClose, userId }) => {
                 fullWidth
                 variant="standard"
                 onChange={(e) => handleInfoChange(e)}
+                value={categoryData.categoryDescription}
               />
             </Grid>
           </Box>
