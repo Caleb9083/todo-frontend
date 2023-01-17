@@ -10,7 +10,7 @@ import DeleteCategoryDialog from "../DeleteCategoryDialog/DeleteCategoryDialog";
 import { category as categoryService } from "../../services/catergories";
 import { formatCategory } from "../../utils/utils";
 
-const CategoryCard = () => {
+const CategoryCard = (props) => {
   const [openUpdateCategoryDialog, setOpenUpdateCategoryDialog] =
     React.useState(false);
   const [openDeleteCategoryDialog, setOpenDeleteCategoryDialog] =
@@ -42,67 +42,53 @@ const CategoryCard = () => {
 
   React.useEffect(() => {
     category = formatCategory(category);
-    let userCategoriesArr = [];
-    categoryService
-      .getCategories()
-      .then((res) => {
-        userCategoriesArr = res.data.data.data;
-        userCategoriesArr.forEach((el) => {
-          if (el.category === category) {
-            setUserCategory({
-              category: el.category,
-              categoryDescription: el.categoryDescription,
-            });
-          } else {
-            switch (category) {
-              case "Today":
-                setUserCategory({
-                  category: "Today",
-                  categoryDescription: "Tasks for Today",
-                  none: "none",
-                });
-                break;
-              case "Important":
-                setUserCategory({
-                  category: "Important",
-                  categoryDescription: "Tasks Ranked As Important",
-                  none: "none",
-                });
-                break;
-              case "Planned":
-                setUserCategory({
-                  category: "Planned",
-                  categoryDescription: "Tasks With A Scheduled Date",
-                  none: "none",
-                });
-                break;
-              case "Completed":
-                setUserCategory({
-                  category: "Completed",
-                  categoryDescription: "Tasks Which Are Completed",
-                  none: "none",
-                });
-                break;
-              case "Other":
-                setUserCategory({
-                  category: "Other",
-                  categoryDescription: "Unclassified Task",
-                  none: "none",
-                });
-                break;
-            }
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!props.category) {
+      switch (category) {
+        case "Today":
+          setUserCategory({
+            category: "Today",
+            categoryDescription: "Tasks for Today",
+            none: "none",
+          });
+          break;
+        case "Important":
+          setUserCategory({
+            category: "Important",
+            categoryDescription: "Tasks Ranked As Important",
+            none: "none",
+          });
+          break;
+        case "Planned":
+          setUserCategory({
+            category: "Planned",
+            categoryDescription: "Tasks With A Scheduled Date",
+            none: "none",
+          });
+          break;
+        case "Completed":
+          setUserCategory({
+            category: "Completed",
+            categoryDescription: "Tasks Which Are Completed",
+            none: "none",
+          });
+          break;
+        case "Other":
+          setUserCategory({
+            category: "Other",
+            categoryDescription: "Unclassified Task",
+            none: "none",
+          });
+          break;
+      }
+    }
   }, []);
 
   return (
     <Box sx={{ display: "flex", fontSize: "2rem" }}>
-      {userCategory.categoryDescription}
-      <Box sx={{ display: `${userCategory.none}` }}>
+      {props.categoryDescription
+        ? props.categoryDescription
+        : userCategory.categoryDescription}
+      <Box sx={{ display: `${props.none ? props.none : userCategory.none}` }}>
         <Tooltip title="Edit Category">
           <IconButton
             size="small"
@@ -126,12 +112,14 @@ const CategoryCard = () => {
         <UpdateCategoryDialog
           handleOpen={handleOpenUpdateCategory}
           handleClose={handleCloseUpdateCategory}
+          categoryId={props.categoryId}
         />
       )}
       {openDeleteCategoryDialog && (
         <DeleteCategoryDialog
           handleOpen={handleOpenDeleteCategory}
           handleClose={handleCloseDeleteCategory}
+          categoryId={props.categoryId}
         />
       )}
     </Box>

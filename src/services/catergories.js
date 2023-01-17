@@ -41,7 +41,47 @@ const createCategory = async (data) => {
   }
 };
 
+const getCategory = async (categoryId) => {
+  try {
+    const res = await API.get(`${url}${categoryId}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateCategory = async (categoryId, data) => {
+  try {
+    const res = await API.patch(`${url}${categoryId}`, data);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+const deleteCategory = async (categoryId) => {
+  try {
+    const res = await API.delete(`${url}${categoryId}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getCategoryId = async (categoryName) => {
+  try {
+    const res = await API.get(`${url}getCategoryId/${categoryName}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const category = {
   getCategories,
   createCategory,
+  getCategory,
+  updateCategory,
+  deleteCategory,
+  getCategoryId,
 };
