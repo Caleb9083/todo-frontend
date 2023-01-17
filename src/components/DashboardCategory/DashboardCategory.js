@@ -14,17 +14,41 @@ import AddNewTaskDialog from "../AddNewTaskDialog/AddNewTaskDialog";
 import { todos as todoService } from "../../services/todos";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import { formatCategory } from "../../utils/utils";
+import { category as categoryService } from "../../services/catergories";
 
 const DashboardCategory = () => {
   const [open, setOpen] = React.useState(false);
-
   const [todos, setTodos] = React.useState([]);
+  const [categoryId, setCategoryId] = React.useState("");
+  const [categoryInfo, setCategoryInfo] = React.useState({
+    category: "",
+    categoryDescription: "",
+    _id: "",
+  });
 
   let { category } = useParams();
 
   category = formatCategory(category);
 
   React.useEffect(() => {
+    categoryService
+      .getCategoryId(category)
+      .then((res) => {
+        setCategoryId(res.data.data);
+        categoryService
+          .getCategory(categoryId)
+          .then((res) => {
+            const data = res.data.data.data;
+            setCategoryInfo(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     todoService
       .getTodosByCategory(category)
       .then((res) => {
@@ -32,7 +56,7 @@ const DashboardCategory = () => {
         setTodos(todos);
       })
       .catch((err) => console.log(err.response.data));
-  }, []);
+  }, [categoryId]);
 
   // Add new Task Dialog
   const handleOpen = () => {
@@ -82,7 +106,12 @@ const DashboardCategory = () => {
                 alignItems={"baseline"}
                 justifyContent="space-between"
               >
-                <CategoryCard />
+                <CategoryCard
+                  category={categoryInfo.category}
+                  categoryDescription={categoryInfo.categoryDescription}
+                  none={categoryInfo.none}
+                  categoryId={categoryInfo._id}
+                />
                 <Box>
                   <Button variant="contained" onClick={handleOpen}>
                     <AddIcon />
