@@ -41,27 +41,36 @@ const createCategory = async (data) => {
   }
 };
 
-const getCategory = async (taskId) => {
+const getCategory = async (categoryId) => {
   try {
-    const res = await API.get(`${url}/${taskId}`);
+    const res = await API.get(`${url}${categoryId}`);
     return res;
   } catch (error) {
     return error;
   }
 };
 
-const updateCategory = async (taskId, data) => {
+const updateCategory = async (categoryId, data) => {
   try {
-    const res = await API.patch(`${url}/${taskId}`, data);
+    const res = await API.patch(`${url}${categoryId}`, data);
     return res;
   } catch (error) {
     return error;
   }
 };
 
-const deleteCategory = async (taskId) => {
+const deleteCategory = async (categoryId) => {
   try {
-    const res = await API.delete(`${url}/${taskId}`);
+    const res = await API.delete(`${url}${categoryId}`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+const getCategoryId = async (categoryName) => {
+  try {
+    const res = await API.get(`${url}getCategoryId/${categoryName}`);
     return res;
   } catch (error) {
     return error;
@@ -74,4 +83,5 @@ export const category = {
   getCategory,
   updateCategory,
   deleteCategory,
+  getCategoryId,
 };
