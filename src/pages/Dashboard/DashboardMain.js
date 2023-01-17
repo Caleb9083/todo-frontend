@@ -105,7 +105,7 @@ const DashboardMain = () => {
             ? "Good Evening,"
             : "Good Afternoon,"
           : "Good Morning,"}{" "}
-        {localStorage.getItem("firstName")}
+        {sessionStorage.getItem("firstName")}
       </Toolbar>
       <Container maxWidth="lg" sx={{ mt: 1, mb: 4 }}>
         <Grid container spacing={3}>

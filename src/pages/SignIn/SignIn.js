@@ -16,10 +16,12 @@ import Copyright from "../../components/Copyright/Copyright";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const { setUser } = React.useContext(UserContext);
   const navigate = useNavigate();
   const url = `${BASE_URL}/api/v1/users/signin`;
 
@@ -33,14 +35,15 @@ export default function SignIn() {
     axios
       .post(url, user)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("firstName", res.data.data.user.firstName);
-        localStorage.setItem("lastName", res.data.data.user.lastName);
-        localStorage.setItem("email", res.data.data.user.email);
-        localStorage.setItem("isLoggedIn", true);
+        sessionStorage.setItem("isLoggedIn", true);
+        sessionStorage.setItem("token", res.data.token);
+        sessionStorage.setItem("firstName", res.data.data.user.firstName);
+        sessionStorage.setItem("lastName", res.data.data.user.lastName);
+        sessionStorage.setItem("email", res.data.data.user.email);
+        setUser({ isLoggedIn: sessionStorage.getItem("isLoggedIn") });
         navigate("/dashboard");
       })
-      .catch((err) => console.log(err.response.data));
+      .catch((err) => console.log(err));
   };
 
   return (
