@@ -48,7 +48,7 @@ const CategoryCard = () => {
       .then((res) => {
         userCategoriesArr = res.data.data.data;
         userCategoriesArr.forEach((el) => {
-          if (el.category === category) {
+          if (el.category == category) {
             setUserCategory({
               category: el.category,
               categoryDescription: el.categoryDescription,

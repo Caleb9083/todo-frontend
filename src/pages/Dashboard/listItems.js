@@ -86,13 +86,7 @@ export const SecondaryListItems = () => {
         My Categories
       </ListSubheader>
       {myCategories.map((el, index) => {
-        return (
-          <MyCategory
-            key={index}
-            categoryName={el.category}
-            categoryDescription={el.categoryDescription}
-          />
-        );
+        return <MyCategory key={index} categoryName={el.category} />;
       })}
     </React.Fragment>
   );

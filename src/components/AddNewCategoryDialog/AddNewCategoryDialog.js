@@ -23,7 +23,10 @@ const AddNewCategoryDialog = ({ handleOpen, handleClose, userId }) => {
   };
 
   const handleSubmit = () => {
-    const finalCategory = { ...categoryData };
+    const finalCategory = {
+      ...categoryData,
+      category: categoryData.category.charAt(0).toUpperCase(),
+    };
 
     categoryService
       .createCategory(finalCategory)
