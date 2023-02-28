@@ -32,6 +32,16 @@ const getTodosByCategory = async (category) => {
   }
 };
 
+const getTodos = async () => {
+  try {
+    const res = await API.get(`/todos`);
+    return res;
+  } catch (error) {
+    return error;
+  }
+};
+
+
 const createTodo = async (data) => {
   try {
     const res = await API.post(`/todos`, data);
@@ -74,4 +84,5 @@ export const todos = {
   getTodo,
   updateTodo,
   deleteTodo,
+  getTodos
 };
